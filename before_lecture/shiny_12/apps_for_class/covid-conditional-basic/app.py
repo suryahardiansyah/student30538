@@ -19,7 +19,7 @@ app_ui = ui.page_fluid(
 def server(input, output, session):
     @reactive.calc
     def full_data():
-        return pd.read_csv("covid-conditional-basic/nyt covid19 data.csv", parse_dates = ['date'])
+        return pd.read_csv("nyt covid19 data.csv", parse_dates = ['date'])
 
     @reactive.calc
     def subsetted_data():

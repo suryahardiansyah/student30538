@@ -404,8 +404,50 @@ nlp.add_pipe('spacytextblob')
 alt.renderers.enable("png")
 ```
 
+```{python}
+import spacy
+import altair as alt
+
+nlp = spacy.load("en_core_web_sm")
+from spacytextblob.spacytextblob import SpacyTextBlob 
+nlp = spacy.load('en_core_web_sm')
+nlp.add_pipe('spacytextblob')
+alt.renderers.enable("png")
+```
 1. Load in the Trump 2020 debate text (`files/`) and conduct polarity sentiment analysis on it
+
+```{python}
+with open("files/trump_2020.txt", 'r', encoding="utf8") as file:
+    trump_2020_text = file.read()
+print(trump_2020_text)
+```
+
+```{python}
+doc_trump = nlp(trump_2020_text)
+print(f"Polarity: {doc_trump._.blob.polarity:.2f}")
+print(f"Subjectivity: {doc_trump._.blob.subjectivity:.2f}")
+```
 2. Plot time series for Trump 2020. Compare it to Trump 2016 plot in the slides.
+
+```{python}
+import pandas as pd
+
+trump_sentence_polarities = []
+for i, sentence in enumerate(doc_trump.sents):
+    polarity = sentence._.blob.polarity
+    trump_sentence_polarities.append({"n": i + 1, "trump_polarity": polarity})
+df_trump = pd.DataFrame(trump_sentence_polarities)
+```
+```{python}
+alt.Chart(df_trump).mark_line().encode(
+    x=alt.X('n', title='Sentence Number'),
+    y=alt.Y('trump_polarity', title='Polarity')
+).properties(
+    title="trump 2020",
+    width=400,
+    height=400
+)
+```
 
 ## Sentiment Analysis: Summary 
 - One model for sentiment analysis: `spacytextblob` 

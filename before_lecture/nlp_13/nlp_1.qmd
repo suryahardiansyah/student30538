@@ -39,12 +39,17 @@ format:
 - Side note: GPTs are *large* language models (hence the term LLMs) -- basic NLP tools consist of *small* language model
 
 ## Capabilities of Language Models: Technical
+
+Cover these in class
+
 - **Tokenizing**: splits text into **tokens** -- usually a word, punctuation, or white space
 - **Named entity detection**: identifies people, organizations, locations
 - **Dependency parser**: analyzes syntax structure of sentence
+
+Will not cover these for time reasons, but good to know about 
+
 - **Parts-of-speech tagger**: assigns parts-of-speech to tokens
 - **Lemmatizer**: converts words to their base form (e.g., texts $\to$ text, coding $\to$ code, fastest $\to$ fast)
-- *Note: we will not be able to cover all of these topics today -- the goal is just to give you a taste of what language models can do*
 
 ## Capability of Language Models: Conceptual
 - We can use NLP methods to answer questions about a piece of text in a data-driven way
@@ -222,7 +227,7 @@ print([token._.blob.polarity for token in doc])
 
 Discussion q: do you agree that second sentence is neutral?
 
-## Sentiment Analysis: polarity 
+## Sentiment Analysis: subjectivity 
 - Subjectivity: higher number is more subjective
 ```{python}
 # | echo : true
@@ -386,7 +391,7 @@ chart1 | chart2
 
 ## Do-pair-share
 ```
-$ pip install spacy spacytextblob
+$ pip install --upgrade spacy spacytextblob numpy pandas h5py
 $ python -m spacy download en_core_web_sm
 ```
 
@@ -396,13 +401,11 @@ nlp = spacy.load("en_core_web_sm")
 from spacytextblob.spacytextblob import SpacyTextBlob 
 nlp = spacy.load('en_core_web_sm')
 nlp.add_pipe('spacytextblob')
+alt.renderers.enable("png")
 ```
 
 1. Load in the Trump 2020 debate text (`files/`) and conduct polarity sentiment analysis on it
 2. Plot time series for Trump 2020. Compare it to Trump 2016 plot in the slides.
-
-Hint: if you are running the code interactively, you'll need to first run `alt.renderers.enable("jupyter")`
-
 
 ## Sentiment Analysis: Summary 
 - One model for sentiment analysis: `spacytextblob` 
@@ -496,8 +499,7 @@ apple_text = "Apple announced in March that it was releasing a new iPhone. Apple
 
 apple_doc = nlp(apple_text)
 entities = [(entity.label_, entity.text) for entity in apple_doc.ents]
-print(entities[0])
-print(entities[1])
+print(entities)
 ```
 
 . . . 
@@ -506,13 +508,13 @@ print(entities[1])
 \AddToHookNext{env/Highlighting/begin}{\small}
 ```{python}
 apple_text = "Apple announced in March that it was releasing a new iPhone. Apples are a delicious snack."
+
 apple_doc = nlp(apple_text)
 entities = [(entity.label_, entity.text) for entity in apple_doc.ents]
-print(entities[0])
-print(entities[1])
+print(entities)
 ```
 
-- Known entity detection can differentiate between "Apple" the company and "Apples" the fruit 
+- Known entity detection can differentiate between "Apple" the company and "Apples" the fruit (XXX code is not working here XXX)
 - But it's also imperfect - did not detect "iPhone" as a known entity 
 
 ## Exercise 
